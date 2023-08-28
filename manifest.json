@@ -1,0 +1,18 @@
+{
+    "manifest_version": 2,
+    "name": "Otab",
+    "version": "23.8.24",
+    "icons": {
+        "32": "icons/icon32.png",
+        "48": "icons/icon48.png",
+        "96": "icons/icon96.png",
+        "128": "icons/icon96.png"
+    },
+    "chrome_url_overrides": {
+        "newtab": "otab.html"
+    },
+    "permissions": [
+        "topSites",
+        "bookmarks"
+    ]
+}
