@@ -1,21 +1,17 @@
 browser.topSites.get().then((sites) => {
-    let div = document.getElementById('site-list');
+    const el_link = document.querySelector('.link');
     if (!sites.length) {
-        div.innerText = 'topSites API 未返回任何数据';
+        el_link.innerText = '没有任何浏览记录';
         return;
     }
-
-    let ul = document.createElement('ul');
-    ul.className = 'list-group';
-    for (let site of sites) {
-        let li = document.createElement('li');
-        li.className = 'list-group-item';
+    for (let s of sites) {
+        let li = document.createElement('div');
+        li.className = 'l-item';
         let a = document.createElement('a');
-        a.href = site.url;
-        a.innerText = site.title || site.url;
+        a.href = s.url;
+        a.innerText = s.title || s.url;
+        a.setAttribute('kk_id', s.id);
         li.appendChild(a);
-        ul.appendChild(li);
+        el_link.appendChild(li);
     }
-
-    div.appendChild(ul);
 });

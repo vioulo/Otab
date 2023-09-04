@@ -1,7 +1,7 @@
 browser.bookmarks.getSubTree("toolbar_____").then((tree) => {
     console.log(tree);
     let toolbar = tree[0].children;
-    const el_toolbar = document.getElementById('toolbar');
+    const el_toolbar = document.getElementById('folder');
     if (!toolbar) {
         el_toolbar.innerText = '书签工具栏没有书签';
         return;
@@ -18,7 +18,7 @@ browser.bookmarks.getSubTree("toolbar_____").then((tree) => {
     });
     folder.forEach(e => {
         let el_folder = document.createElement('div');
-        el_folder.className = 'folder';
+        el_folder.className = 'f-item';
         el_folder.innerText = e.title;
         el_folder.setAttribute('kk_id', e.id);
         el_folder.onclick = () => {
@@ -32,13 +32,13 @@ browser.bookmarks.getSubTree("toolbar_____").then((tree) => {
 
 function fillBookmark(folderId) {
     const el_folder = document.querySelector(`div[kk_id="${folderId}"]`);
-    el_folder.classList.add('folder-active');
+    el_folder.classList.add('fi-active');
     const el_divs = document.querySelectorAll(`div:not([kk_id="${folderId}"])`);
     el_divs.forEach((div) => {
-        div.classList.remove('folder-active');
+        div.classList.remove('fi-active');
     });
-    const el_title = document.querySelector('.sub-title');
-    el_title.innerText = el_folder.innerText;
+    // const el_title = document.querySelector('.sub-title');
+    // el_title.innerText = el_folder.innerText;
     if (folderId == 'tmp') {
         return fillTmp();
     }
@@ -71,19 +71,19 @@ function fillTmp() {
 }
 
 function emptyListElement() {
-    const ul = document.querySelector('ul');
-    while (ul.firstChild) {
-        ul.firstChild.remove();
+    const el_link = document.querySelector('.link');
+    while (el_link.firstChild) {
+        el_link.firstChild.remove();
     }
 }
+
 function insertLinkElement(link) {
-    let li = document.createElement('li');
-    li.className = 'list-group-item';
+    let li = document.createElement('div');
+    li.className = 'l-item';
     let a = document.createElement('a');
     a.href = link.url;
     a.innerText = link.title || link.url;
     a.setAttribute('kk_id', link.id);
     li.appendChild(a);
-    let ul = document.querySelector('ul');
-    ul.appendChild(li);
+    document.querySelector('.link').appendChild(li);
 }
