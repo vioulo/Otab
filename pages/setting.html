@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="icons/icon32.png" type="image/png">
+    <title>setting</title>
+    <link rel="stylesheet" href="../css/com.css">
+    <style>
+
+        .st-list {
+            width: 600px;
+            color: var(--st-color);
+        }
+        .st-cont {
+            border: 1px solid var(--st-border-color);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .bar-it {
+            width: 100px;
+            padding: 0.5rem;
+            text-align: center;
+        }
+        .bar-it:hover {
+            background-color: var(--st-bar-act-color);
+        }
+        .bar-left {
+            border-right: 1px solid var(--st-border-color);
+            padding-right: 0.5rem;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+        .bar-right {
+            padding-left: 0.5rem;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+        .st-bar-act {
+            background-color: var(--st-bar-act-color);
+            color: #fff;
+        }
+    </style>
+    </head>
+<body>
+    <div class="main flex">
+        <div class="st-list">
+            <div class="st-bar flex">
+                <div class="st-label">侧边栏位置：</div>
+                <div class="st-cont flex">
+                    <div class="bar-left bar-it" pox="left">左侧</div>
+                    <div class="bar-right bar-it" pox="right">右侧</div>    
+                </div>
+            </div>
+        </div>
+        <div class="logo flex gap-1">
+            <img src="../imgs/icons8-soil.png" alt="soil" class="logo-mark">
+            <font>Otab :) V-2023-0926</font>
+        </div>
+    </div>
+</body>
+<script src="../js/jquery-3.7.1.min.js"></script>
+<script src="../js/setting.js"></script>
+</html>
