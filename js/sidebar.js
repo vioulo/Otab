@@ -30,6 +30,7 @@ browser.storage.local.get('bar_pox', function (r) {
     });
 });
 
+// adjust link view width
 function adjustView() {
     let count = document.querySelectorAll('a').length;
     let el_view = document.querySelector('.view');
@@ -48,6 +49,12 @@ function adjustView() {
     }
     if (count >= 60) {
         view_width = 1200;
+    }
+    if (count >= 70) {
+        view_width = 1400;
+    }
+    if (count >= 80) {
+        view_width = clientWidth;
     }
     if (view_width > clientWidth) {
         view_width = clientWidth;
