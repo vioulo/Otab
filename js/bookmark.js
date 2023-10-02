@@ -1,5 +1,4 @@
 browser.bookmarks.getSubTree("toolbar_____").then((tree) => {
-    console.log(tree);
     let toolbar = tree[0].children;
     const el_box = document.querySelector('.box');
     if (!toolbar) {
