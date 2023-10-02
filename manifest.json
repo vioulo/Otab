@@ -1,18 +1,23 @@
 {
     "manifest_version": 2,
     "name": "Otab",
-    "version": "23.9.4",
+    "version": "23.10.2",
     "icons": {
-        "32": "icons/icon32.png",
-        "48": "icons/icon48.png",
-        "96": "icons/icon96.png",
-        "128": "icons/icon96.png"
+        "32": "imgs/icons/icon32.png",
+        "48": "imgs/icons/icon48.png",
+        "96": "imgs/icons/icon96.png",
+        "128": "imgs/icons/icon96.png"
     },
     "chrome_url_overrides": {
-        "newtab": "otab.html"
+        "newtab": "pages/new-tab.html"
+    },
+    "pages": {
+        "settings": "pages/setting.html"
     },
     "permissions": [
         "topSites",
-        "bookmarks"
+        "bookmarks",
+        "storageSync",
+        "storage"
     ]
 }
