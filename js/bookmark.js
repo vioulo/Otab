@@ -94,10 +94,41 @@ function emptyListElement() {
 
 function insertLinkElement(link) {
     let a = document.createElement('a');
-    a.href = link.url;
+    // a.href = link.url;
     a.innerText = link.title || link.url;
     a.setAttribute('tb_id', link.id);
+    a.onclick = () => {
+        goLink(link.id, link.url);
+    }
     document.querySelector('.view').appendChild(a);
 
     adjustView();
+}
+
+// 记录链接的点击次数并在新标签页打开
+function goLink(link_id, link_url) {
+    const key = 'otab_link_count';
+    browser.storage.local.get(key).then((res) => {
+        let rs = res[key] || [];
+        let update = false;
+        if (rs.length) {
+            let nrs = [];
+            rs.map((obj) => {
+                if (obj.id == link_id) {
+                    obj.count++;
+                    update = true;
+                }
+                nrs.push(obj);
+            });
+            rs = nrs;
+        }
+        if (!update) {
+            rs.push({
+                id: link_id,
+                count: 1
+            });
+        }
+        browser.storage.local.set({ [key]: rs });
+        browser.tabs.create({ url: link_url });
+    });
 }
