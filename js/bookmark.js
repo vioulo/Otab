@@ -1,3 +1,33 @@
+let tamp_id = 0;
+let tamp_new = false;
+let tamp_title = '缓存区';
+
+async function genTampNode() {
+    try {
+        const results = await new Promise((resolve, reject) => {
+            browser.bookmarks.search({ title: tamp_title }, results => {
+                resolve(results);
+            });
+        });
+        if (results.length > 0) {
+            tamp_id = results[0].id;
+        } else {
+            const node = await new Promise((resolve, reject) => {
+                browser.bookmarks.create({
+                    title: tamp_title,
+                    parentId: 'toolbar_____',
+                }, node => {
+                    resolve(node);
+                });
+            });
+            tamp_id = node.id;
+            tamp_new = true;
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 browser.bookmarks.getSubTree("toolbar_____").then((tree) => {
     let toolbar = tree[0].children;
     const el_box = document.querySelector('.box');
@@ -9,11 +39,20 @@ browser.bookmarks.getSubTree("toolbar_____").then((tree) => {
     toolbar.forEach(e => {
         if (e.type == 'folder') {
             folder.push(e);
+        } else {
+            genTampNode().then(() => {
+                browser.bookmarks.move(e.id, { parentId: tamp_id });
+                if (tamp_new) {
+                    folder.push({
+                        id: e.id,
+                        title: tamp_title,
+                    });
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
         }
-    });
-    folder.push({
-        id : 'tmp',
-        title : '缓存区',
     });
     folder.forEach(e => {
         let el_folder = document.createElement('div');
@@ -36,9 +75,6 @@ function fillBookmark(folderId) {
     el_divs.forEach((div) => {
         div.classList.remove('b-active');
     });
-    if (folderId == 'tmp') {
-        return fillTmp();
-    }
     emptyListElement();
     browser.bookmarks.getChildren(folderId).then((children) => {
         children.forEach((b) => {
@@ -47,24 +83,6 @@ function fillBookmark(folderId) {
             }
         });
     });
-}
-
-function fillTmp() {
-    browser.bookmarks.getSubTree("toolbar_____").then((tree) => {
-        let toolbar = tree[0].children;
-        if (!toolbar) {
-            return;
-        }
-        emptyListElement();
-        toolbar.forEach(e => {
-            if (e.type == 'folder') {
-                return;
-            }
-            insertLinkElement(e);
-        });
-    }).catch((error) => {
-        console.error(error);
-    })
 }
 
 function emptyListElement() {
