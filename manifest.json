@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Otab",
-    "version": "23.10.2",
+    "version": "1.0.24",
     "icons": {
         "32": "imgs/icons/icon32.png",
         "48": "imgs/icons/icon48.png",
