@@ -47,6 +47,8 @@
     color: var(--view-a-color);
     background: var(--view-a-bg-color);
     border: 1px solid var(--view-a-border-color);
+    cursor: pointer;
+    transition: all 0.2s;
 }
 .view a:hover {
     background-color: #8858f8;
