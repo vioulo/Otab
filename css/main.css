@@ -54,3 +54,34 @@
     background-color: #8858f8;
     color: #fff;
 }
+
+/* context-menu start */
+.custom-context-menu {
+    position: fixed;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 4px 0;
+    border-radius: 4px;
+    background-color: #f0f2f5;
+    &.hidden {
+        display: none;
+    }
+    li {
+        padding: 8px 12px;
+        border-bottom: 1px solid #f0f2f5;
+        user-select: none;
+        transition: all 0.1s;
+        &:last-child {
+            border-bottom: none;
+        }
+        &:hover {
+            cursor: pointer;
+            background-color: #0170fe;
+            color: #fff;
+        }
+        &:active {
+            background-color: #f0f2f7;
+        }
+    }
+}
+/* context-menu end */

@@ -1,6 +1,7 @@
 let tamp_id = 0;
 let tamp_new = false;
 let tamp_title = '缓存区';
+let olc = 'otab_link_count';
 
 async function genTampNode() {
     try {
@@ -94,10 +95,11 @@ function emptyListElement() {
 
 function insertLinkElement(link) {
     let a = document.createElement('a');
-    // a.href = link.url;
+    a.href = link.url;
     a.innerText = link.title || link.url;
     a.setAttribute('tb_id', link.id);
-    a.onclick = () => {
+    a.onclick = (e) => {
+        e.preventDefault();
         goLink(link.id, link.url);
     }
     document.querySelector('.view').appendChild(a);
@@ -107,9 +109,8 @@ function insertLinkElement(link) {
 
 // 记录链接的点击次数并在新标签页打开
 function goLink(link_id, link_url) {
-    const key = 'otab_link_count';
-    browser.storage.local.get(key).then((res) => {
-        let rs = res[key] || [];
+    browser.storage.local.get(olc).then((res) => {
+        let rs = res[olc] || [];
         let update = false;
         if (rs.length) {
             let nrs = [];
@@ -128,7 +129,103 @@ function goLink(link_id, link_url) {
                 count: 1
             });
         }
-        browser.storage.local.set({ [key]: rs });
+        browser.storage.local.set({ [olc]: rs });
         browser.tabs.create({ url: link_url });
     });
 }
+
+/// --- ContextMenu Start ---
+const ContextMenu = function (options) {
+    let instance;
+
+    function createMenu() {
+        const ul = document.createElement("ul");
+        ul.classList.add("custom-context-menu");
+        const { menus } = options;
+        if (menus && menus.length > 0) {
+            for (let menu of menus) {
+                const li = document.createElement("li");
+                li.textContent = menu.name;
+                li.onclick = menu.onClick;
+                ul.appendChild(li);
+            }
+        }
+        const body = document.querySelector("body");
+        body.appendChild(ul);
+        return ul;
+    }
+
+    return {
+        getInstance: function () {
+            if (!instance) {
+                instance = createMenu();
+            }
+            return instance;
+        },
+    };
+};
+
+const contextMenu = ContextMenu({
+    menus: [
+        {
+            name: "新窗口打开",
+            onClick: function (e) {
+                browser.windows.create({ url: window.cur_link.url });
+            },
+        },
+        {
+            name: "删除",
+            onClick: function (e) {
+                let id = window.cur_link.id;
+                if (confirm("确定要删除吗?")) {
+                    try {
+                        document.querySelector(`a[tb_id="${id}"]`).remove();
+                        browser.storage.local.get(olc).then((res) => {
+                            let rs = res[olc] || [];
+                            let nrs = [];
+                            rs.map((obj) => {
+                                if (obj.id != id) {
+                                    nrs.push(obj);
+                                }
+                            });
+                            browser.storage.local.set({ [olc]: nrs });
+                        });
+                        browser.bookmarks.remove(id);
+                    } catch (error) {
+                        alert('删除失败');
+                        console.error(error);
+                    }
+                }
+            },
+        },
+    ],
+});
+
+function showMenu(e) {
+    e.preventDefault();
+    window.cur_link = {
+        id: e.target.getAttribute("tb_id"),
+        url: e.target.href
+    };
+    console.log(window.cur_link);
+    const menus = contextMenu.getInstance();
+    menus.style.top = `${e.clientY}px`;
+    menus.style.left = `${e.clientX}px`;
+    menus.classList.remove("hidden");
+}
+
+function hideMenu(event) {
+    window.cur_link = {};
+    const menus = contextMenu.getInstance();
+    menus.classList.add("hidden");
+}
+
+document.addEventListener("click", hideMenu);
+document.addEventListener("contextmenu", function (e) {
+    if (e.target.tagName == "A") {
+        showMenu(e);
+    } else {
+        hideMenu();
+    }
+});
+/// --- ContextMenu End ---
