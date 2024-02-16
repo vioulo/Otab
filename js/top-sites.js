@@ -26,8 +26,7 @@ browser.storage.sync.get('otab_link_count').then((res) => {
             a.innerText = s.title;
             a.setAttribute('tb_id', s.id || 0);
             a.onclick = (e) => {
-                e.preventDefault();
-                goLink(s.id, s.url);
+                goLink(s.id);
             }
             el_link.appendChild(a);
         }

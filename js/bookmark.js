@@ -99,39 +99,19 @@ function insertLinkElement(link) {
     a.innerText = link.title || link.url;
     a.setAttribute('tb_id', link.id);
     a.onclick = (e) => {
-        e.preventDefault();
-        goLink(link.id, link.url);
+        goLink(link.id);
     }
     document.querySelector('.view').appendChild(a);
 
     adjustView();
 }
 
-// 记录链接的点击次数并在新标签页打开
-function goLink(link_id, link_url) {
-    browser.storage.sync.get(olc).then((res) => {
-        let rs = res[olc] || [];
-        let update = false;
-        if (rs.length) {
-            let nrs = [];
-            rs.map((obj) => {
-                if (obj.id == link_id) {
-                    obj.count++;
-                    update = true;
-                }
-                nrs.push(obj);
-            });
-            rs = nrs;
-        }
-        if (!update) {
-            rs.push({
-                id: link_id,
-                count: 1
-            });
-        }
-        browser.storage.sync.set({ [olc]: rs });
-        browser.tabs.create({ url: link_url });
-    });
+// 记录链接的点击次数
+function goLink(link_id) {
+    browser.runtime.sendMessage({
+        type: 'linkClick',
+        link_id: link_id,
+      });
 }
 
 /// --- ContextMenu Start ---
