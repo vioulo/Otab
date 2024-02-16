@@ -1,8 +1,18 @@
 .st-list {
-    width: 600px;
+    width: 1000px;
     color: var(--st-color);
 }
+.st-label {
+    width: 100px;
+    text-align: right;
+}
 .st-cont {
+    flex-grow: 1;
+    padding-left: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+.sc-lb {
+    width: 200px;
     border: 1px solid var(--st-border-color);
     border-radius: 6px;
     cursor: pointer;
@@ -29,4 +39,25 @@
 .st-bar-act {
     background-color: var(--st-bar-act-color);
     color: #fff;
+}
+#cus-css {
+    width: 100%;
+    max-width: 100%;
+    min-height: 150px;
+    background-color: rgb(201, 191, 255);
+    border-radius: 6px;
+    padding: 0.5rem;
+}
+.btn {
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.btn:hover {
+    font-weight: bold;
+}
+.btn.cc-cfm {
+    background: #189169;
+    align-self: flex-end;
+    margin-left: 0.5rem;
 }
