@@ -207,10 +207,17 @@ function showMenu(e) {
         id: e.target.getAttribute("tb_id"),
         url: e.target.href
     };
-    console.log(window.cur_link);
+    let h_top = e.clientY;
+    let h_left = e.clientX;
+    if (window.innerHeight - h_top < 100) {
+        h_top = e.clientY - 100;
+    }
+    if (window.innerWidth - e.clientX < 120) {
+        h_left = window.innerWidth - 120;
+    }
     const menus = contextMenu.getInstance();
-    menus.style.top = `${e.clientY}px`;
-    menus.style.left = `${e.clientX}px`;
+    menus.style.top = `${h_top}px`;
+    menus.style.left = `${h_left}px`;
     menus.classList.remove("hidden");
 }
 
