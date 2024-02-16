@@ -1,4 +1,4 @@
-browser.storage.local.get('otab_link_count').then((res) => {
+browser.storage.sync.get('otab_link_count').then((res) => {
     let rs = res['otab_link_count'] || [];
     const el_link = document.querySelector('.view');
     if (!rs.length) {

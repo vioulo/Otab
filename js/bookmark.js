@@ -109,7 +109,7 @@ function insertLinkElement(link) {
 
 // 记录链接的点击次数并在新标签页打开
 function goLink(link_id, link_url) {
-    browser.storage.local.get(olc).then((res) => {
+    browser.storage.sync.get(olc).then((res) => {
         let rs = res[olc] || [];
         let update = false;
         if (rs.length) {
@@ -129,7 +129,7 @@ function goLink(link_id, link_url) {
                 count: 1
             });
         }
-        browser.storage.local.set({ [olc]: rs });
+        browser.storage.sync.set({ [olc]: rs });
         browser.tabs.create({ url: link_url });
     });
 }
@@ -180,7 +180,7 @@ const contextMenu = ContextMenu({
                 if (confirm("确定要删除吗?")) {
                     try {
                         document.querySelector(`a[tb_id="${id}"]`).remove();
-                        browser.storage.local.get(olc).then((res) => {
+                        browser.storage.sync.get(olc).then((res) => {
                             let rs = res[olc] || [];
                             let nrs = [];
                             rs.map((obj) => {
@@ -188,7 +188,7 @@ const contextMenu = ContextMenu({
                                     nrs.push(obj);
                                 }
                             });
-                            browser.storage.local.set({ [olc]: nrs });
+                            browser.storage.sync.set({ [olc]: nrs });
                         });
                         browser.bookmarks.remove(id);
                     } catch (error) {
