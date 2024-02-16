@@ -1,7 +1,7 @@
 // show sidebar
 const clientWidth = document.body.clientWidth;
 const el_sidebar = document.getElementById('sidebar');
-browser.storage.local.get('bar_pox', function (r) {
+browser.storage.sync.get('bar_pox', function (r) {
     let bar_pox = r.bar_pox || 'left';
     el_sidebar.classList.add(`show-${bar_pox}`);
     document.addEventListener('mousemove', (event) => {
@@ -65,5 +65,14 @@ function adjustView() {
 // open setting
 document.querySelector('.logo-mark').onclick = () => {
     browser.tabs.create({ url: "setting.html" });
-
 }
+
+browser.storage.sync.get('otab-cus-css', function (r) {
+    let css = r['otab-cus-css'] || '';
+    if (!css) {
+        return;
+    }
+    let styleElement = document.createElement('style');
+    styleElement.textContent = css;
+    document.head.appendChild(styleElement);
+});
