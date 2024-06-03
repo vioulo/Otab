@@ -1,6 +1,8 @@
 :root {
     --bg-color: #f7f5e0;
-    --color: #046e1b;
+    --color: #57b781;
+    --b-it-border-color: #046e1b;
+    --b-it-bg-color: #45c67d;
     --b-it-color: #fff;
     --view-a-color: #303030;
     --view-a-bg-color: #9191911a;
@@ -13,18 +15,16 @@
 @media (prefers-color-scheme: dark) {
     :root {
         --bg-color: #22272e;
-        --color: #00ffd5;
+        --b-it-border-color: #33626a54;
+        --b-it-bg-color: #45c67d;
         --b-it-color: #000;
-        --view-a-color: #bbb;
-        --view-a-bg-color: #9191911a;
-        --view-a-border-color: #cccccc5e;
+        --view-a-color: #566e93;
+        --view-a-bg-color: #7687b91a;
+        --view-a-border-color: #7687b91a;
         /* setting */
         --st-color: #fff;
         --st-border-color: #96a7b7;
         --st-bar-act-color: #169e38;
-    }
-    .view a {
-        box-shadow: inset 1px 0px 2px #403c5e, 1px 0px 2px #000;
     }
 }
 * {
@@ -38,7 +38,7 @@
     align-items: center;
 }
 .gap-1 {
-    gap: 1rem;
+    gap: 0.5rem;
 }
 .main {
     width: 100vw;
@@ -50,8 +50,9 @@
     position: fixed;
     right: 0;
     bottom: 0;
-    background-color: #9cf3c7;
-    color: #000;
+    color: #8bc9ff;
+    border-top: 1px dashed;
+    border-left: 1px dashed;
     border-top-left-radius: 6px;
     padding: 0.2rem 0.5rem;
     font-size: 12px;
