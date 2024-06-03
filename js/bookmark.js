@@ -33,7 +33,6 @@ browser.bookmarks.getSubTree("toolbar_____").then(async (tree) => {
         return;
     }
     [tmp_id, tmp_new] = await genTmpNode();
-    console.log(tmp_id);
     let folder = [];
     toolbar.forEach(e => {
         if (e.type == 'folder') {
@@ -51,11 +50,12 @@ browser.bookmarks.getSubTree("toolbar_____").then(async (tree) => {
     folder.forEach(e => {
         let el_folder = document.createElement('div');
         el_folder.className = 'b-it';
-        el_folder.innerText = e.title;
         el_folder.setAttribute('tb_id', e.id);
         el_folder.onclick = () => {
             fillBookmark(e.id);
         }
+        title = '<div class="b-title">' + e.title + '</div>';
+        el_folder.innerHTML = title;
         el_box.appendChild(el_folder);
     })
 }).catch((error) => {
@@ -69,7 +69,8 @@ function fillBookmark(folderId) {
     el_divs.forEach((div) => {
         div.classList.remove('b-active');
     });
-    emptyListElement();
+    $('.view').empty();
+    $('.view').attr('tb_id', folderId);
     browser.bookmarks.getChildren(folderId).then((children) => {
         children.forEach((b) => {
             if (b.type == 'bookmark') {
@@ -77,13 +78,15 @@ function fillBookmark(folderId) {
             }
         });
     });
-}
-
-function emptyListElement() {
-    const el_link = document.querySelector('.view');
-    while (el_link.firstChild) {
-        el_link.firstChild.remove();
-    }
+    browser.storage.sync.get('otab_pin', function (r) {
+        if (r['otab_pin'] == folderId) {
+            $('.cls-1').addClass('cls-1-active');
+            $('.cls-2').addClass('cls-2-active');
+        } else {
+            $('.cls-1').removeClass('cls-1-active');
+            $('.cls-2').removeClass('cls-2-active');
+        }
+    });
 }
 
 function insertLinkElement(link) {
