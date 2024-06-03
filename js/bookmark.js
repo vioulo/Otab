@@ -1,58 +1,51 @@
-let tamp_id = 0;
-let tamp_new = false;
-let tamp_title = '缓存区';
-let olc = 'otab_link_count';
+let tmp_id = 0;
+let tmp_new = false;
+let tmp_title = '缓存区';
 
-async function genTampNode() {
+async function genTmpNode() {
     try {
-        const results = await new Promise((resolve, reject) => {
-            browser.bookmarks.search({ title: tamp_title }, results => {
-                resolve(results);
-            });
-        });
-        if (results.length > 0) {
-            tamp_id = results[0].id;
+        const results = await browser.bookmarks.search({ title: tmp_title });
+        if (results.length) {
+            return [results[0].id, false];
         } else {
-            const node = await new Promise((resolve, reject) => {
-                browser.bookmarks.create({
-                    title: tamp_title,
-                    parentId: 'toolbar_____',
-                }, node => {
-                    resolve(node);
+            if (!tmp_id) {
+                const node = await new Promise((resolve, reject) => {
+                    browser.bookmarks.create({
+                        title: tmp_title,
+                        parentId: 'toolbar_____',
+                    }, node => {
+                        resolve(node);
+                    });
                 });
-            });
-            tamp_id = node.id;
-            tamp_new = true;
+                return [node.id, true];
+            }
         }
     } catch (error) {
         console.error(error);
     }
 }
 
-browser.bookmarks.getSubTree("toolbar_____").then((tree) => {
+browser.bookmarks.getSubTree("toolbar_____").then(async (tree) => {
     let toolbar = tree[0].children;
     const el_box = document.querySelector('.box');
     if (!toolbar) {
         el_box.innerText = '书签工具栏没有书签';
         return;
     }
+    [tmp_id, tmp_new] = await genTmpNode();
+    console.log(tmp_id);
     let folder = [];
     toolbar.forEach(e => {
         if (e.type == 'folder') {
             folder.push(e);
         } else {
-            genTampNode().then(() => {
-                browser.bookmarks.move(e.id, { parentId: tamp_id });
-                if (tamp_new) {
-                    folder.push({
-                        id: e.id,
-                        title: tamp_title,
-                    });
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
+            browser.bookmarks.move(e.id, { parentId: tmp_id });
+            if (tmp_new) {
+                folder.push({
+                    id: e.id,
+                    title: tmp_title,
+                });
+            }
         }
     });
     folder.forEach(e => {
@@ -148,6 +141,12 @@ const ContextMenu = function (options) {
 const contextMenu = ContextMenu({
     menus: [
         {
+            name: "新标签打开",
+            onClick: function (e) {
+                window.open(window.cur_link.url, '_blank');
+            },
+        },
+        {
             name: "新窗口打开",
             onClick: function (e) {
                 browser.windows.create({ url: window.cur_link.url });
@@ -160,16 +159,6 @@ const contextMenu = ContextMenu({
                 if (confirm("确定要删除吗?")) {
                     try {
                         document.querySelector(`a[tb_id="${id}"]`).remove();
-                        browser.storage.sync.get(olc).then((res) => {
-                            let rs = res[olc] || [];
-                            let nrs = [];
-                            rs.map((obj) => {
-                                if (obj.id != id) {
-                                    nrs.push(obj);
-                                }
-                            });
-                            browser.storage.sync.set({ [olc]: nrs });
-                        });
                         browser.bookmarks.remove(id);
                     } catch (error) {
                         alert('删除失败');
