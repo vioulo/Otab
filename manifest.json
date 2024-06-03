@@ -1,10 +1,10 @@
 {
     "manifest_version": 2,
     "name": "Otab",
-    "version": "24.2.16",
+    "version": "24.6.3",
     "browser_specific_settings": {
         "gecko": {
-            "id": "{8fc0b81d-6594-4f1b-978b-fbfa71a89405}",
+            "id": "firefox-ext-otab@morello",
             "strict_min_version": "100.0"
         }
     },
@@ -27,7 +27,6 @@
         "settings": "pages/setting.html"
     },
     "permissions": [
-        "topSites",
         "bookmarks",
         "storage"
     ]
