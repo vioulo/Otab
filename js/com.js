@@ -63,7 +63,7 @@ function adjustView() {
 }
 
 // open setting
-document.querySelector('.logo-mark').onclick = () => {
+document.querySelector('.btn-setting').onclick = () => {
     browser.tabs.create({ url: "setting.html" });
 }
 

@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
-    "name": "Otab2",
-    "version": "0.1.2",
+    "name": "Otab",
+    "version": "0.1.5",
     "browser_specific_settings": {
         "gecko": {
             "id": "firefox-otab@void.gold",
@@ -23,8 +23,9 @@
     "chrome_url_overrides": {
         "newtab": "pages/new-tab.html"
     },
-    "pages": {
-        "settings": "pages/setting.html"
+    "options_ui": {
+        "page": "pages/setting.html",
+        "open_in_tab": true
     },
     "permissions": [
         "bookmarks",

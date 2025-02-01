@@ -9,7 +9,6 @@
     --view-a-border-color: #cccccc5e;
     /* setting */
     --st-color: #303030;
-    --st-border-color: #303030;
     --st-bar-act-color: #2b50f7;
 }
 @media (prefers-color-scheme: dark) {
@@ -23,12 +22,12 @@
         --view-a-border-color: #7687b91a;
         /* setting */
         --st-color: #fff;
-        --st-border-color: #96a7b7;
-        --st-bar-act-color: #169e38;
+        --st-bar-act-color: #8c213f;
     }
 }
 * {
     box-sizing: border-box;
+    outline: none;
     padding: 0;
     margin: 0;
 }
@@ -51,14 +50,11 @@
     right: 0;
     bottom: 0;
     color: #8bc9ff;
-    border-top: 1px dashed;
-    border-left: 1px dashed;
-    border-top-left-radius: 6px;
     padding: 0.2rem 0.5rem;
     font-size: 12px;
     font-family: monospace;
 }
-.logo-mark {
+.btn-setting {
     width: 26px;
     cursor: pointer;
 }
