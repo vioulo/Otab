@@ -1,52 +1,28 @@
-let tmp_id = 0;
-let tmp_new = false;
-let tmp_title = '缓存区';
+const tmpFolder = {
+    id: 'no-fo',
+    title: '缓存区',
+};
 
-async function genTmpNode() {
-    try {
-        const results = await browser.bookmarks.search({ title: tmp_title });
-        if (results.length) {
-            return [results[0].id, false];
-        } else {
-            if (!tmp_id) {
-                const node = await new Promise((resolve, reject) => {
-                    browser.bookmarks.create({
-                        title: tmp_title,
-                        parentId: 'toolbar_____',
-                    }, node => {
-                        resolve(node);
-                    });
-                });
-                return [node.id, true];
-            }
-        }
-    } catch (error) {
-        console.error(error);
-    }
-}
-
+// 读取书签内容
 browser.bookmarks.getSubTree("toolbar_____").then(async (tree) => {
     let toolbar = tree[0].children;
     const el_box = document.querySelector('.box');
     if (!toolbar) {
-        el_box.innerText = '书签工具栏没有书签';
+        el_box.innerText = '书签工具栏没有内容';
         return;
     }
-    [tmp_id, tmp_new] = await genTmpNode();
     let folder = [];
+    let tmpTag = false;
     toolbar.forEach(e => {
         if (e.type == 'folder') {
             folder.push(e);
         } else {
-            browser.bookmarks.move(e.id, { parentId: tmp_id });
-            if (tmp_new) {
-                folder.push({
-                    id: e.id,
-                    title: tmp_title,
-                });
-            }
+            tmpTag = true;
         }
     });
+    if (tmpTag) {
+        folder.push(tmpFolder);
+    }
     folder.forEach(e => {
         let el_folder = document.createElement('div');
         el_folder.className = 'b-it';
@@ -62,6 +38,30 @@ browser.bookmarks.getSubTree("toolbar_____").then(async (tree) => {
     console.error(error);
 })
 
+// 判断文件夹 id 并填充数据
+function adjustFolderAndInsert(folderId) {
+    if (folderId == tmpFolder.id) {
+        browser.bookmarks.getSubTree("toolbar_____").then(async (tree) => {
+            let toolbar = tree[0].children;
+            toolbar.forEach(e => {
+                if (e.type == 'bookmark') {
+                    insertLinkElement(e);
+                }
+            });
+            adjustView();
+        });
+    } else {
+        browser.bookmarks.getChildren(folderId).then((children) => {
+            children.forEach((b) => {
+                if (b.type == 'bookmark') {
+                    insertLinkElement(b);
+                }
+            });
+            adjustView();
+        });
+    }
+}
+
 function fillBookmark(folderId) {
     const el_folder = document.querySelector(`div[tb_id="${folderId}"]`);
     el_folder.classList.add('b-active');
@@ -71,14 +71,7 @@ function fillBookmark(folderId) {
     });
     $('.view').empty();
     $('.view').attr('tb_id', folderId);
-    browser.bookmarks.getChildren(folderId).then((children) => {
-        children.forEach((b) => {
-            if (b.type == 'bookmark') {
-                insertLinkElement(b);
-            }
-        });
-        adjustView();
-    });
+    adjustFolderAndInsert(folderId);
     browser.storage.sync.get('otab_pin', function (r) {
         if (r['otab_pin'] == folderId) {
             $('.sp-t').addClass('active');
