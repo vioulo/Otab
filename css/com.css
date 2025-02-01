@@ -58,3 +58,9 @@
     width: 26px;
     cursor: pointer;
 }
+.version {
+    margin-top: 10vh;
+    color: #8bc9ff;
+    font-size: 12px;
+    font-family: monospace;
+}
