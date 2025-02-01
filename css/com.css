@@ -44,8 +44,7 @@
     min-height: 100vh;
     background-color: var(--bg-color);
 }
-
-.logo {
+.btn-setting {
     position: fixed;
     right: 0;
     bottom: 0;
@@ -53,9 +52,6 @@
     padding: 0.2rem 0.5rem;
     font-size: 12px;
     font-family: monospace;
-}
-.btn-setting {
-    width: 26px;
     cursor: pointer;
 }
 .version {
