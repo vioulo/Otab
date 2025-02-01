@@ -77,6 +77,7 @@ function fillBookmark(folderId) {
                 insertLinkElement(b);
             }
         });
+        adjustView();
     });
     browser.storage.sync.get('otab_pin', function (r) {
         if (r['otab_pin'] == folderId) {
@@ -96,8 +97,6 @@ function insertLinkElement(link) {
         goLink(link.id);
     }
     document.querySelector('.view').appendChild(a);
-
-    adjustView();
 }
 
 // 记录链接的点击次数

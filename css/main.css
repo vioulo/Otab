@@ -42,6 +42,7 @@
     right: 0.5rem;
     top: 0.5rem;
     cursor: pointer;
+    z-index: 1000;
 }
 .sp-t.active {
     fill: #a42721;

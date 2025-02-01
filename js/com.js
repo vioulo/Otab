@@ -59,7 +59,13 @@ function adjustView() {
     if (view_width > clientWidth) {
         view_width = clientWidth;
     }
+
     el_view.style.width = view_width + 'px';
+
+    if (el_view.offsetHeight >= window.innerHeight) {
+        el_view.style.height = '100%';
+        el_view.style.overflowY = "scroll";
+    }
 }
 
 // open setting
