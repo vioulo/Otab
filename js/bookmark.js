@@ -153,6 +153,17 @@ const contextMenu = ContextMenu({
             },
         },
         {
+            name: "复制链接",
+            onClick: function (e) {
+                 // 使用剪贴板 API 复制内容
+                navigator.clipboard.writeText(window.cur_link.url).then(() => {
+                    showTooltip(e.clientX, e.clientY, '已复制');
+                }).catch(err => {
+                    console.error('复制失败: ', err);
+                });
+            }
+        },
+        {
             name: "删除",
             onClick: function (e) {
                 let id = window.cur_link.id;

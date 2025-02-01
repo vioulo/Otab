@@ -75,17 +75,16 @@
 /* context-menu start */
 .custom-context-menu {
     position: fixed;
-    border: 1px solid #ccc;
     list-style: none;
-    padding: 4px 0;
     border-radius: 4px;
-    background-color: #f0f2f5;
+    background: #393939c4;
+    color: #fff;
     &.hidden {
         display: none;
     }
     li {
-        padding: 8px 12px;
-        border-bottom: 1px solid #f0f2f5;
+        padding: 0.5rem 1rem;
+        border-bottom: 1px solid #606060;
         user-select: none;
         transition: all 0.1s;
         &:last-child {
@@ -93,12 +92,21 @@
         }
         &:hover {
             cursor: pointer;
-            background-color: #0170fe;
+            background: #3c5d8e;
             color: #fff;
         }
         &:active {
-            background-color: #f0f2f7;
+            background: #3c5d8e;
         }
     }
 }
 /* context-menu end */
+.tooltip {
+    position: absolute;
+    background: rgba(148, 226, 178, 0.89);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* 防止气泡干扰鼠标事件 */
+}
