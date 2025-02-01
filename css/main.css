@@ -101,12 +101,3 @@
     }
 }
 /* context-menu end */
-.tooltip {
-    position: absolute;
-    background: rgba(148, 226, 178, 0.89);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: opacity 0.3s ease;
-    pointer-events: none; /* 防止气泡干扰鼠标事件 */
-}

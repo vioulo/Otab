@@ -30,7 +30,7 @@ browser.storage.sync.get('bar_pox', function (r) {
     });
 });
 
-// adjust link view width
+// 判断链接内容的宽度
 function adjustView() {
     let count = document.querySelectorAll('a').length;
     let el_view = document.querySelector('.view');
@@ -73,6 +73,7 @@ document.querySelector('.btn-setting').onclick = () => {
     browser.tabs.create({ url: "setting.html" });
 }
 
+// 加载自定义 CSS
 browser.storage.sync.get('otab-cus-css', function (r) {
     let css = r['otab-cus-css'] || '';
     if (!css) {
@@ -101,22 +102,20 @@ $('.svg-pin').on('click', function () {
     });
 });
 
-// tips
-function showTooltip(x, y, msg) {
-    const tooltip = document.createElement('div'); // 动态创建气泡元素
-    tooltip.className = 'tooltip';
-    tooltip.textContent = msg;
-    document.body.appendChild(tooltip); // 将气泡添加到文档中
-
-    // 设置气泡位置
-    tooltip.style.left = `${x}px`;
-    tooltip.style.top = `${y}px`;
-    tooltip.style.opacity = 1;
-
-    setTimeout(() => {
-        tooltip.style.opacity = 0;
-        setTimeout(() => {
-            document.body.removeChild(tooltip); // 移除气泡
-        }, 300);
-    }, 2000);
-}
+// show pin link
+browser.storage.sync.get('otab_pin', function (r) {
+    const el_link = document.querySelector('.view');
+    if (!r['otab_pin']) {
+        el_link.innerHTML = '<div class="empty-link">⭕️ 您还未固定文件夹</div>';
+    } else {
+        $('.sp-t').addClass('active');
+        $('.view').attr('tb_id', r['otab_pin']);
+        browser.bookmarks.getChildren(r['otab_pin']).then((children) => {
+            children.forEach((b) => {
+                if (b.type == 'bookmark') {
+                    insertLinkElement(b);
+                }
+            });
+        });
+    }
+});

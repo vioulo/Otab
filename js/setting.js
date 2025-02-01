@@ -15,6 +15,7 @@ browser.storage.sync.get('otab-cus-css', function (r) {
     $('#cus-css').val(r['otab-cus-css'] || '');
 });
 
-$('.cc-cfm').on('click', function () {
+$('.cc-cfm').on('click', function (e) {
     browser.storage.sync.set({ 'otab-cus-css': $('#cus-css').val() });
+    showTooltip(e.clientX, e.clientY, 'ok');
 });
