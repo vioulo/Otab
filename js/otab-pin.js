@@ -2,10 +2,9 @@
 browser.storage.sync.get('otab_pin', function (r) {
     const el_link = document.querySelector('.view');
     if (!r['otab_pin']) {
-        el_link.innerText = '// 暂时空白咯';
+        el_link.innerHTML = '<div class="empty-link">⭕️ 您还未固定文件夹</div>';
     } else {
-        $('.cls-1').addClass('cls-1-active');
-        $('.cls-2').addClass('cls-2-active');
+        $('.sp-t').addClass('active');
         $('.view').attr('tb_id', r['otab_pin']);
         browser.bookmarks.getChildren(r['otab_pin']).then((children) => {
             children.forEach((b) => {

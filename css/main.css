@@ -38,27 +38,18 @@
     color: var(--b-it-color);
 }
 .svg-pin {
-    width: 2rem;
     position: fixed;
     right: 0.5rem;
-    top: 0;
+    top: 0.5rem;
     cursor: pointer;
 }
-.cls-1 {
-    fill: #bbb;
+.sp-t.active {
+    fill: #a42721;
 }
-
-.cls-2 {
-    fill: none;
-    stroke: #777;
-    stroke-miterlimit: 10;
-    stroke-width: 2px;
-}
-.cls-1-active {
-    fill: #045bec;
-}
-.cls-2-active {
-    stroke: #045bec;
+.empty-link {
+    color: var(--view-a-color);
+    width: 100%;
+    text-align: center;
 }
 .view {
     width: 600px;

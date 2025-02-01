@@ -80,16 +80,17 @@ browser.storage.sync.get('otab-cus-css', function (r) {
 // pins
 $('.svg-pin').on('click', function() {
     const id = $('.view').attr('tb_id');
+    if (!id) {
+        return;
+    }
     const tag = 'otab_pin';
     browser.storage.sync.get(tag, function (r) {
         if (r[tag] != id) {
             browser.storage.sync.set({ [tag]: id});
-            $('.cls-1').addClass('cls-1-active');
-            $('.cls-2').addClass('cls-2-active');
+            $('.sp-t').addClass('active');
         } else {
             browser.storage.sync.set({ [tag]: 0});
-            $('.cls-1').removeClass('cls-1-active');
-            $('.cls-2').removeClass('cls-2-active');
+            $('.sp-t').removeClass('active');
         }
     });
 });

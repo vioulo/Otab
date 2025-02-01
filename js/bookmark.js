@@ -80,11 +80,9 @@ function fillBookmark(folderId) {
     });
     browser.storage.sync.get('otab_pin', function (r) {
         if (r['otab_pin'] == folderId) {
-            $('.cls-1').addClass('cls-1-active');
-            $('.cls-2').addClass('cls-2-active');
+            $('.sp-t').addClass('active');
         } else {
-            $('.cls-1').removeClass('cls-1-active');
-            $('.cls-2').removeClass('cls-2-active');
+            $('.sp-t').removeClass('active');
         }
     });
 }
